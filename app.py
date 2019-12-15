@@ -13,7 +13,7 @@ CORS(app)
 
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "password"
+app.config["MYSQL_PASSWORD"] = "tonyjones"
 app.config["MYSQL_DB"] = "chat"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 # mysql initialization
@@ -22,8 +22,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def index():
-    mood = sentiment("elements are great")
-    return mood
+    return "hello from flask";
 
 
 @app.route("/login", methods=["POST"])
@@ -51,7 +50,13 @@ def login():
     else:
         return "You are not supposed to be here: You have registered to be hacked by your activity"
 
+@app.route("/sentiment",methods=["POST"])
+def sentiment():
+    if request.method == "POST":
+        messagegot = request.form["message"]
+        mood = sentiment(message)
+        return mood
 
 if __name__ == "___main__":
     app.secret_key = "secret123"
-    app.run(debug=True,host= '0.0.0.0')
+    app.run(debug=True,host= '0.0.0.0',port=1235)
