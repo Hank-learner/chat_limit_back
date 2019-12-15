@@ -11,7 +11,7 @@ port=1235
 server.bind((host,port))
 server.listen()
 
-conn=pymysql.connect("localhost","root","Pingpong@123","chat")
+conn=pymysql.connect("localhost","root","your_password","chat")
 cursor=conn.cursor()
 
 t=[]
@@ -27,7 +27,7 @@ def read(connection,q):
             #print(data.split('>')[0].split('@')[1])
             #print(data[(len(data.split('>')[0])+2):])
             sql_query="INSERT INTO chats(name,msg) VALUES('{0}','{1}')".format(data.split('>')[0].split('@')[1],data[(len(data.split('>')[0])+2):])
-            print(sql_query)
+            # print(sql_query)
             try:
                 cursor.execute(sql_query)
                 conn.commit()

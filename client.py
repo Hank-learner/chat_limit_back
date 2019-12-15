@@ -14,7 +14,7 @@ s.setblocking(True)
 
 
 def msg_input():
-    print('waiting for input')
+    # print('waiting for input')
     while True:
         msg=input('> ')
         if len(msg)!=0:
@@ -24,7 +24,7 @@ def msg_input():
             continue
 
 def msg_read():
-    print('reading')
+    # print('reading')
     while True:
             data=s.recv(1024).decode('utf-8')
             if(len(data)!=0):
