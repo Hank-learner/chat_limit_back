@@ -5,6 +5,7 @@ from flask_mysqldb import MySQL
 from sentiment import sentiment
 import sys
 from flask_cors import CORS
+from chatbot1 import chatsuggestions
 
 # from auth import authentication
 app = Flask(__name__)
@@ -22,7 +23,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def index():
-    return "hello from flask";
+    return "hello from flask"
 
 
 @app.route("/login", methods=["POST"])
@@ -50,13 +51,21 @@ def login():
     else:
         return "You are not supposed to be here: You have registered to be hacked by your activity"
 
-@app.route("/sentiment",methods=["POST"])
+
+@app.route("/sentiment", methods=["POST"])
 def sentiment():
     if request.method == "POST":
         messagegot = request.form["message"]
-        mood = sentiment(message)
+        mood = sentiment(messagegot)
         return mood
+
+
+@app.route("/suggestions", methods=["POST"])
+def suggestions():
+    messagegot = request.form["message"]
+    return chatsuggestions([messagegot])
+
 
 if __name__ == "___main__":
     app.secret_key = "secret123"
-    app.run(debug=True,host= '0.0.0.0',port=1235)
+    app.run(debug=True, host="0.0.0.0", port=1235)
