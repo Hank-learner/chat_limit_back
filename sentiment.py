@@ -44,6 +44,33 @@ def sentiment(message):
     
      return mood
 
-#test
-yo=sentiment(' do what I say')
-print(yo)
+
+def checkmessage(message):
+     
+     df= pd.read_csv("sentiment.csv")
+     message= message.lower()
+     message=message.split(' ')
+     arr=[]
+     for i in range(0,len(message)):
+       
+        if message[i] in np.array(df.words):
+              senti = df.loc[df.words == message[i]].iloc[0]
+             
+              vr=  senti['sentiment']
+              words=senti['words']
+              if int(vr)==1:
+                  pos+=1
+                 
+              elif int(vr)==0:
+                  arr.append(words)
+                  neg+=1
+     send={'alert':False}
+     if neg>0 :
+        send={ 
+              'alert':True,
+              'words': arr
+            
+        }             
+
+     return send
+
