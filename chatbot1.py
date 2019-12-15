@@ -17,10 +17,11 @@ import codecs
 from io import open
 import itertools
 import math
+import json
 
 corpus_name = "cornell movie-dialogs corpus"
 corpus = os.path.join("data", corpus_name)
-message=['welcome you']
+
 
 def printLines(file, n=10):
     with open(file, 'rb') as datafile:
@@ -209,18 +210,20 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
     return voc, pairs
 
 
+
+def chatsuggestions(message):
 # Load/Assemble voc and pairs
-save_dir = os.path.join("data", "save")
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
+ save_dir = os.path.join("data", "save")
+ voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
 
-for message in message:
- messagearr=message.split(' ')
+ for message in message:
+  messagearr=message.split(' ')
 # Print some pairs to validate
- pairarr=[]
- high=0
-
- highp=pairs[0]
- for pair in pairs[:]:
+  pairarr=[]
+  high=0
+  arrr=[]
+  highp=pairs[0]
+  for pair in pairs[:]:
     qn=pair[0].split(' ') 
     arr=[]   
     for i in messagearr:
@@ -235,9 +238,13 @@ for message in message:
       
       high= len(arr)
 
+ for g in range(len(highp)-5,len(highp)):
+    arrr.append(highp[g])
+   
+ x={'suggestions':arrr}
+ y = json.dumps(x)
+ return y
 
-for g in range(len(highp)-5,len(highp)):
-    print(highp[g])
    
       
 
