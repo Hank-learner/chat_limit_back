@@ -3,11 +3,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import torch
-from torch.jit import script, trace
-import torch.nn as nn
-from torch import optim
-import torch.nn.functional as F
+# import torch
+# from torch.jit import script, trace
+# import torch.nn as nn
+# from torch import optim
+# import torch.nn.functional as F
 import csv
 import random
 import re
@@ -26,10 +26,10 @@ corpus = os.path.join("data", corpus_name)
 def printLines(file, n=10):
     with open(file, 'rb') as datafile:
         lines = datafile.readlines()
-    for line in lines[:n]:
-        print(line)
+    # for line in lines[:n]:
+        # print(line)
 
-printLines(os.path.join(corpus, "movie_lines.txt"))
+# printLines(os.path.join(corpus, "movie_lines.txt"))
 
 def loadLines(fileName, fields):
     lines = {}
@@ -89,21 +89,21 @@ MOVIE_LINES_FIELDS = ["lineID", "characterID", "movieID", "character", "text"]
 MOVIE_CONVERSATIONS_FIELDS = ["character1ID", "character2ID", "movieID", "utteranceIDs"]
 
 # Load lines and process conversations
-print("\nProcessing corpus...")
+# print("\nProcessing corpus...")
 lines = loadLines(os.path.join(corpus, "movie_lines.txt"), MOVIE_LINES_FIELDS)
-print("\nLoading conversations...")
+# print("\nLoading conversations...")
 conversations = loadConversations(os.path.join(corpus, "movie_conversations.txt"),
                                   lines, MOVIE_CONVERSATIONS_FIELDS)
 
 # Write new csv file
-print("\nWriting newly formatted file...")
+# print("\nWriting newly formatted file...")
 with open(datafile, 'w', encoding='utf-8') as outputfile:
     writer = csv.writer(outputfile, delimiter=delimiter, lineterminator='\n')
     for pair in extractSentencePairs(conversations):
         writer.writerow(pair)
 
 # Print a sample of lines
-print("\nSample lines from file:")
+# print("\nSample lines from file:")
 printLines(datafile)
 
 PAD_token = 0  # Used for padding short sentences
@@ -144,9 +144,9 @@ class Voc:
             if v >= min_count:
                 keep_words.append(k)
 
-        print('keep_words {} / {} = {:.4f}'.format(
-            len(keep_words), len(self.word2index), len(keep_words) / len(self.word2index)
-        ))
+        # print('keep_words {} / {} = {:.4f}'.format(
+        #     len(keep_words), len(self.word2index), len(keep_words) / len(self.word2index)
+        # ))
 
         # Reinitialize dictionaries
         self.word2index = {}
@@ -177,7 +177,7 @@ def normalizeString(s):
 
 # Read query/response pairs and return a voc object
 def readVocs(datafile, corpus_name):
-    print("Reading lines...")
+    # print("Reading lines...")
     # Read the file and split into lines
     lines = open(datafile, encoding='utf-8').\
         read().strip().split('\n')
@@ -197,16 +197,16 @@ def filterPairs(pairs):
 
 # Using the functions defined above, return a populated voc object and pairs list
 def loadPrepareData(corpus, corpus_name, datafile, save_dir):
-    print("Start preparing training data ...")
+    # print("Start preparing training data ...")
     voc, pairs = readVocs(datafile, corpus_name)
-    print("Read {!s} sentence pairs".format(len(pairs)))
+    # print("Read {!s} sentence pairs".format(len(pairs)))
     pairs = filterPairs(pairs)
-    print("Trimmed to {!s} sentence pairs".format(len(pairs)))
-    print("Counting words...")
+    # print("Trimmed to {!s} sentence pairs".format(len(pairs)))
+    # print("Counting words...")
     for pair in pairs:
         voc.addSentence(pair[0])
         voc.addSentence(pair[1])
-    print("Counted words:", voc.num_words)
+    # print("Counted words:", voc.num_words)
     return voc, pairs
 
 
