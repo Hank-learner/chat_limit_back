@@ -3,6 +3,7 @@ from flask import Flask, request
 import logging
 from flask_mysqldb import MySQL
 from sentiment import sentiment
+from sentiment import checkmessage
 import sys
 from flask_cors import CORS
 from chatbot1 import chatsuggestions
@@ -65,6 +66,10 @@ def suggestions():
     messagegot = request.form["message"]
     return chatsuggestions([messagegot])
 
+@app.route("/alertness")
+def alertness():
+    messagegot = request.form["message"]
+    return checkmessage(messagegot)
 
 if __name__ == "___main__":
     app.secret_key = "secret123"
